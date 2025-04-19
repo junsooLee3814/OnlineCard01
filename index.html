@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이준수 - 온라인 명함</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --bg-card: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-color: #00b4d8;
+            --hover-color: #0096c7;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: var(--bg-secondary);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-item a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-item img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 80px auto 0;
+            padding: 40px 20px;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+            background-color: var(--bg-secondary);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid var(--accent-color);
+            box-shadow: 0 0 20px rgba(0, 180, 216, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+
+        .name {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .name-eng {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+        }
+
+        .social-links {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 50%;
+            background-color: var(--bg-card);
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+            background-color: var(--accent-color);
+        }
+
+        .social-links img {
+            width: 25px;
+            height: 25px;
+            filter: brightness(0) invert(1);
+        }
+
+        .interests-section {
+            margin-top: 40px;
+            text-align: left;
+            padding: 30px;
+            background-color: var(--bg-secondary);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .interests-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .interest-item {
+            padding: 20px;
+            background-color: var(--bg-card);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .interest-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .interest-item h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .interest-item ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .interest-item li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .interest-item li:before {
+            content: "•";
+            color: var(--accent-color);
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .location-section {
+            margin-top: 40px;
+            text-align: left;
+            padding: 30px;
+            background-color: var(--bg-secondary);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .location-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .location-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: var(--bg-card);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .location-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .location-icon {
+            margin-right: 20px;
+            color: var(--accent-color);
+            font-size: 1.8em;
+            padding-top: 5px;
+        }
+
+        .location-info h3 {
+            color: var(--text-primary);
+            margin: 0 0 8px 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .location-info p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 1em;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                padding: 20px 10px;
+                margin-top: 60px;
+            }
+            .profile-section {
+                padding: 20px;
+            }
+            .interests-grid, .location-grid {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+            .nav-menu {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">이준수</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#profile">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/user.png" alt="프로필">
+                        프로필
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://open.kakao.com/o/sXXXXXXX" target="_blank">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/chat.png" alt="카카오톡">
+                        카카오톡
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="profile-section" id="profile">
+            <img src="js_lee.png" alt="이준수" class="profile-image">
+            <h1 class="name">이준수</h1>
+            <div class="name-eng">Lee Jun Soo</div>
+            
+            <div class="social-links">
+                <a href="mailto:jslee3814@gmail.com" title="이메일">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/mail.png" alt="이메일">
+                </a>
+                <a href="https://linkedin.com/" target="_blank" title="LinkedIn">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn">
+                </a>
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/github.png" alt="GitHub">
+                </a>
+            </div>
+            
+            <div class="interests-section">
+                <h2>관심분야</h2>
+                <div class="interests-grid">
+                    <div class="interest-item">
+                        <h3>업무자동화</h3>
+                        <ul>
+                            <li>엑셀</li>
+                            <li>판다스</li>
+                        </ul>
+                    </div>
+                    <div class="interest-item">
+                        <h3>컨트리팝</h3>
+                        <ul>
+                            <li>CCR</li>
+                            <li>빌리조얼</li>
+                        </ul>
+                    </div>
+                    <div class="interest-item">
+                        <h3>골프</h3>
+                        <ul>
+                            <li>타이거우즈</li>
+                            <li>맥킬로이</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="location-section">
+                <h2>Location & Contact</h2>
+                <div class="location-grid">
+                    <div class="location-item">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="location-info">
+                            <h3>SongPa-gu, Seoul</h3>
+                            <p>서울특별시 송파구 백제고분로 34길 18-7</p>
+                        </div>
+                    </div>
+                    <div class="location-item">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="location-info">
+                            <h3>Busan</h3>
+                            <p>부산직할시 해운대구 센텀서로 100</p>
+                        </div>
+                    </div>
+                    <div class="location-item">
+                        <div class="location-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="location-info">
+                            <h3>jslee3814@gmail.com</h3>
+                            <p>문의 메일 이쪽으로 주세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+</html>
